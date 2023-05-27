@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "/workspaces/khod-kaar/khod-kaar.py",
-            "args": ["-o", "to write a program in Python that uses a conditional GAN architecture trained on the MNIST dataset to generate specific digits. Both training and inference should be done on the local hardware."],
+            "args": ["-t", "0.0", "-o", "to write a program in Python that uses a conditional GAN architecture trained on the MNIST dataset to generate specific digits. Both training and inference should be done on the local hardware."],
             "console": "integratedTerminal",
             "justMyCode": true
         }
