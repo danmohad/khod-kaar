@@ -1,12 +1,14 @@
+import os
 import subprocess
 from Roles import Roles
 
 class System:
     def __init__(self):
-        pass
+        
+        # Keep track of the current working directory
+        self.cwd = os.getcwd()
 
-    @staticmethod
-    def execute(llm_output_) -> str:
+    def execute(self, llm_output_) -> str:
         """Execute code contained in `llm_output_` as a shell command."""
         
         System._output(llm_output_, Roles.assistant.name)
@@ -21,19 +23,30 @@ class System:
         # Parse the LLM output text for code
         llm_code_ = System._parse_output_for_code(llm_output_)
 
-        # Complain if `llm_code_` is empty
+        # Complain if `llm_code_` is empty and return
         if llm_code_ == "":
             return "NO SHELL COMMAND RECEIVED!"
-        
-        # Execute `llm_code_` as a shell command
-        else:
-            out = subprocess.run(llm_code_, shell=True, capture_output=True, text=True).stdout
 
-            # Add a message to let the LLM know when a 
-            #  shell command that generates no stdout output is successful  
-            if out == "":
-                return "Shell command executed successfully. No output was generated."
+        # Append cwd check to code to keep track of it
+        split_kwd = "**PWD**"
+        llm_code_ += f" && echo '{split_kwd}' && pwd"
+
+        # Execute `llm_code_` as a shell command
+        out = subprocess.run(llm_code_, 
+            shell=True, capture_output=True, text=True, cwd=self.cwd).stdout
+
+        # Parse the cwd from the output
+        out, cwd_ = out.split(split_kwd)
+        self.cwd = "".join(cwd_.split())
         
+        # Add a message to let the LLM know when a 
+        #  shell command that generates no stdout output is successful  
+        if out == "" or out.isspace():
+            out = "Shell command executed successfully. No output was generated."
+        
+        # Print output to console
+        print(out)
+
         # Return stdout output of shell command
         return out
 
