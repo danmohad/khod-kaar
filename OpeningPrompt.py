@@ -6,11 +6,12 @@ from System import System
 class OpeningPrompt():
     """Singleton class containing the opening prompt sequence to be added to memory and sent to LLM. These prompts guide subsequent LLM behavior."""
     
-    def __init__(self) -> None:
+    def __init__(self, objective_ = None) -> None:
         """Initialization method for OpeningPrompt"""
 
-        # User-specified overall objective
-        objective_ = input("Objective? (To ...)\n")
+        if not objective_:
+            # Request user-specified objective
+            objective_ = input("Objective? (To ...)\n")
 
         # List of sequential opening prompts specifying `role` and `content` fields for LLM
         self.prompts = [

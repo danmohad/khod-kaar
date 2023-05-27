@@ -4,7 +4,7 @@ from System import System
 from OpeningPrompt import OpeningPrompt
 
 class Agent():
-    def __init__(self) -> None:
+    def __init__(self, objective_ = None) -> None:
         # Create Memory singleton instance as attribute
         self.memory = Memory()
         
@@ -15,7 +15,7 @@ class Agent():
         self.system = System()
 
         # Create OpeningPrompt singleton instance
-        op = OpeningPrompt()
+        op = OpeningPrompt(objective_)
 
         # Loop over opening prompts and add to memory
         for p in op.prompts:

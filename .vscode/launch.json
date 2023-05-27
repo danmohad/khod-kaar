@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "python",
+            "request": "launch",
+            "program": "/workspaces/khod-kaar/khod-kaar.py",
+            "args": ["-o", "to write a program in Python that uses a conditional GAN architecture trained on the MNIST dataset to generate specific digits. Both training and inference should be done on the local hardware."],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
