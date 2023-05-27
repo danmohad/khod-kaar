@@ -23,7 +23,7 @@ class Interface:
             model=self.model,
             messages=memories_,
             temperature=self._temperature
-        )
+        ) # TODO dump "memories" to memory and read from file in case of API connection failure
 
         self.tokens_used = self._get_token_count(self.last_output)
 

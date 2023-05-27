@@ -62,6 +62,8 @@ class System:
         
         # Find the first and second instances of `code_start_stop_substr_`
         # Assume that `code_start_stop_substr_` only appears twice in each LLM output
+        # TODO Make sure to take the last two substrings, since sometimes it writes the "code"
+            # and then write the bash commands to "write" the code
         code_start_ = System._find_nth_substr(code_start_stop_substr_, output_, 0) + \
                             len(code_start_stop_substr_)
         code_stop_ = System._find_nth_substr(code_start_stop_substr_, output_, 1)
