@@ -4,13 +4,14 @@ import os
 class Interface:
     """Singleton class for interacting with LLM via OpenAI's API"""
 
-    def __init__(self) -> None:
+    def __init__(self, temperature_ = 1.0) -> None:
         """Initialization method for Interface."""
 
         self.last_output = []
 
         # OpenAI and LLM settings
         self.model = "gpt-4"
+        self._temperature = temperature_
         openai.organization = os.getenv("OPENAI_ORG_KEY")
         openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -19,7 +20,8 @@ class Interface:
         
         self.last_output = openai.ChatCompletion.create(
             model=self.model,
-            messages=memories_
+            messages=memories_,
+            temperature=self._temperature
         )
 
         return self._llm_output_to_text(self.last_output)
