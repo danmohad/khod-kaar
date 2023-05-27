@@ -12,6 +12,7 @@ class Interface:
         # OpenAI and LLM settings
         self.model = "gpt-4"
         self._temperature = temperature_
+        self.tokens_used = 0
         openai.organization = os.getenv("OPENAI_ORG_KEY")
         openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -24,6 +25,8 @@ class Interface:
             temperature=self._temperature
         )
 
+        self.tokens_used = self._get_token_count(self.last_output)
+
         return self._llm_output_to_text(self.last_output)
     
     @staticmethod
@@ -31,3 +34,9 @@ class Interface:
         """Parse the object returned by the LLM's API to get the LLM's output text"""
         
         return output_["choices"][0]["message"]["content"]
+
+    @staticmethod
+    def _get_token_count(output_) -> int:
+        """Parse the object returned by the LLM's API to get the LLM's total token usage"""
+
+        return output_["usage"]["total_tokens"]
