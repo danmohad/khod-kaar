@@ -22,12 +22,3 @@ class Memory():
 
         self.memories = []
 
-    def token_count(self, model_: str) -> int:
-        """Get current token count."""
-
-        encoding = tiktoken.encoding_for_model(model_)
-        string_ = ""
-        for m in self.memories:
-            string_ += m['content'] + "\n" 
-        num_tokens = len(encoding.encode(string_))
-        return num_tokens
