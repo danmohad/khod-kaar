@@ -19,6 +19,7 @@ if __name__ == "__main__":
     # Add optional arguments for ease of testing
     parser.add_argument("-o", "--objective", help = "Input objective (to ...)", type=str)
     parser.add_argument("-t", "--temperature", help = "Input LLM prompting temperature [0,1]", type=float)
+    parser.add_argument("-m", "--model", help = "Input LLM model (e.g., gpt-4)", type=float)
     
     # Read arguments from command line
     args = parser.parse_args()
