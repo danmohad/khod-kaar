@@ -32,6 +32,7 @@ class System:
         llm_code_ += f" && echo '{split_kwd}' && pwd"
 
         # Execute `llm_code_` as a shell command
+        # TODO add a try/except here to capture subprocess resulting in error; feed error to LLM
         out = subprocess.run(llm_code_, 
             shell=True, capture_output=True, text=True, cwd=self.cwd).stdout
 
@@ -66,7 +67,11 @@ class System:
         code_stop_ = System._find_nth_substr(code_start_stop_substr_, output_, 1)
         
         # Return the code appearing between the instances of `code_start_stop_substr_`
-        return output_[code_start_:code_stop_]
+        code_ = output_[code_start_:code_stop_]
+
+        # Deal with the LLM sometimes starting code with "```bash", assuming "bash" only appears once
+        code_ = code_.split("bash\n")[-1]
+        return code_
 
     
     @staticmethod
