@@ -1,5 +1,3 @@
-import tiktoken
-
 class Memory():
     """Singleton class containing the full conversation history of LLM inputs, LLM outputs and code execution outputs in the `memories` attribute."""
     
@@ -11,11 +9,6 @@ class Memory():
         """Add event to memory, keeping track of `role` and `content` attributes."""
 
         self.memories += [{'role': role_, 'content': memory_}]
-    
-    def show_memory(self) -> None:
-        """Output current state of memory to console."""
-
-        print(self.memories)
 
     def forget_memory(self) -> None:
         """Clear memory."""

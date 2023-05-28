@@ -1,6 +1,8 @@
 import os
 import subprocess
-from Roles import Roles
+from colorama import Fore
+from colorama import Back
+from colorama import Style
 
 class System:
     def __init__(self):
@@ -10,8 +12,6 @@ class System:
 
     def execute(self, llm_output_) -> str:
         """Execute code contained in `llm_output_` as a shell command."""
-        
-        System._output(llm_output_, Roles.assistant.name)
 
         # Ask human for approval to continue
         input_ = System._human_in_the_loop()
@@ -43,9 +43,6 @@ class System:
         #  shell command that generates no stdout output is successful  
         if out == "" or out.isspace():
             out = "Shell command executed successfully. No output was generated."
-        
-        # Print output to console
-        print(out)
 
         # Return stdout output of shell command
         return out
@@ -86,7 +83,8 @@ class System:
     def _human_in_the_loop():
         """Get human approval to continue program execution. This is the only human intervention in the program."""
 
-        human_input_ = input("Approved? y=Yes, n=No, Anything else=Feedback to LLM\n")
+        print("")
+        human_input_ = input(f"Approved? {Back.GREEN}y=Yes{Style.RESET_ALL}, {Back.RED}n=No{Style.RESET_ALL}, Anything else=Feedback to LLM\n")
         if human_input_ == "y":
             return "**CONTINUE**"
         elif human_input_ == "n":
