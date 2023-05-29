@@ -28,7 +28,6 @@ class Agent():
             self.memory.memorize(p['content'], p['role'])
 
     def satisfied(self):
-        # TODO this needs to be incorporated in the OpeningPrompt
         if self.memory.memories[-1].get('content', None) == "Satisfied.":
             return True
         else:
