@@ -13,13 +13,16 @@ class OpeningPrompt():
             # Request user-specified objective
             objective_ = input("Objective? (To ...)\n")
 
+        # Keep track of user-specified objective
+        self.objective = objective_
+
         # List of sequential opening prompts specifying `role` and `content` fields for LLM
         self.prompts = [
             {'role': Roles.system.name,
              'content': \
 f"""You are a LLM-powered intelligent software agent, written in Python 3, called `khod-kaar`. You are running in a Debian environment that is connected to the internet. You behave like an ambitious, independent and diligent software engineer. 
              
-Your objective is {objective_}.
+Your objective is {self.objective}.
 
 You are free to use any utilities available in the computational environment to achieve your objective, and to download any that you need that are not currently available. You can also look around at the files in your program at any time using shell and Git commands. If you install any packages (e.g. Python, Debian, Node), keep track of them in files like `requirements.txt`, and make sure to install them quietly, i.e., with limited verbosity of output, to save on LLM tokens.
 
