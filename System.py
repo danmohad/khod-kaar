@@ -35,7 +35,8 @@ class System:
 
         # Execute `llm_code_` as a shell command, capture any errors in execution        
         try:
-            out = subprocess.run(llm_code_, shell=True, check=True, capture_output=True, text=True).stdout
+            out = subprocess.run(llm_code_, 
+                                 shell=True, check=True, capture_output=True, text=True, cwd=self.cwd).stdout
         except Exception as e:
             out = f"Shell command exited with status {e.returncode}"
             out += f"\nCommand was: {e.cmd}"
