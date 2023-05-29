@@ -12,7 +12,7 @@ from OpeningPrompt import OpeningPrompt
 class Agent():
     def __init__(self, args) -> None:
         # Create Memory singleton instance as attribute
-        self.memory = Memory(args.model)
+        self.memory = Memory(args.model, args.long_term_memory)
         
         # Create Model singleton instance as attribute
         self.model = Interface(args.temperature, args.model)
@@ -22,6 +22,9 @@ class Agent():
 
         # Create OpeningPrompt singleton instance
         op = OpeningPrompt(args.objective)
+
+        # Keep track of objective
+        self.objective = op.objective
 
         # Loop over opening prompts and add to memory
         for p in op.prompts:

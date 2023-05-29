@@ -22,7 +22,7 @@ class Interface:
             model=self._model,
             messages=memories_,
             temperature=self._temperature
-        ) # TODO dump "memories" to memory and read from file in case of API connection failure
+        )
 
         return self._llm_output_to_text(self.last_output)
     
