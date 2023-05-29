@@ -36,6 +36,7 @@ class Memory():
     def short_to_long_term(self) -> None:
         """Save memory (short term) to disk (long term)."""
 
+        # Overwrites any existing long-term memory file on disk
         with open(self._long_term_memory, 'w') as fout:
             json.dump(self.memories, fout)
 
