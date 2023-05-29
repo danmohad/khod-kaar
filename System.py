@@ -24,17 +24,26 @@ class System:
         llm_code_ = System._parse_output_for_code(llm_output_)
 
         # Complain if `llm_code_` is empty and return
-        if llm_code_ == "":
-            return "NO SHELL COMMAND RECEIVED!"
+        if llm_code_ == "**NO CODE BLOCK**":
+            return "No shell command received. Nothing to execute."
+        elif llm_code_ == "**MULTIPLE CODE BLOCKS**":
+            return "Multiple code blocks received. Only one code block can be provided at a time."
 
         # Append cwd check to code to keep track of it
         split_kwd = "**PWD**"
         llm_code_ += f" && echo '{split_kwd}' && pwd"
 
-        # Execute `llm_code_` as a shell command
-        # TODO add a try/except here to capture subprocess resulting in error; feed error to LLM
-        out = subprocess.run(llm_code_, 
-            shell=True, capture_output=True, text=True, cwd=self.cwd).stdout
+        # Execute `llm_code_` as a shell command, capture any errors in execution        
+        try:
+            subprocess.run(llm_code_, shell=True, check=True, capture_output=True, text=True)
+        except Exception as e:
+            out = f"Shell command exited with status {e.returncode}"
+            out += f"\nCommand was: {e.cmd}"
+            out += f"\nstdout was: {e.stdout}"
+            if e.stderr:
+                out += f"\nstderr was: {e.stderr}"
+            # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it was before the part of the command that failed
+            return out
 
         # Parse the cwd from the output
         out, cwd_ = out.split(split_kwd)
@@ -55,13 +64,13 @@ class System:
         code_start_stop_substr_ = "```"
 
         # Check if LLM failed to include code in its output
-        if code_start_stop_substr_ not in output_:
-            return ""
+        count_ = System._count_substr(code_start_stop_substr_, output_)
+        if count_ == 0:
+            return "**NO CODE BLOCK**"
+        elif count_ > 2:
+            return "**MULTIPLE CODE BLOCKS**"
         
         # Find the first and second instances of `code_start_stop_substr_`
-        # Assume that `code_start_stop_substr_` only appears twice in each LLM output
-        # TODO Make sure to take the last two substrings, since sometimes it writes the "code"
-            # and then write the bash commands to "write" the code
         code_start_ = System._find_nth_substr(code_start_stop_substr_, output_, 0) + \
                             len(code_start_stop_substr_)
         code_stop_ = System._find_nth_substr(code_start_stop_substr_, output_, 1)
@@ -70,10 +79,21 @@ class System:
         code_ = output_[code_start_:code_stop_]
 
         # Deal with the LLM sometimes starting code with "```bash", assuming "bash" only appears once
+        # TODO this might not work properly
         code_ = code_.split("bash\n")[-1]
         return code_
 
-    
+    @staticmethod
+    def _count_substr(needle_: str, haystack_: str) -> int:
+        """Count how many `needle_` substrings there are in `haystack_`."""
+
+        n = 0
+        start = haystack_.find(needle_)
+        while start >= 0:
+            start = haystack_.find(needle_, start+len(needle_))
+            n += 1
+        return n
+
     @staticmethod
     def _find_nth_substr(needle_, haystack_, n):
         """Find the starting position of the `n`-th substring `needle_` in the string `haystack_`."""
