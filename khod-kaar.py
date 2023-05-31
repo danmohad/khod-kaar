@@ -19,9 +19,9 @@ if __name__ == "__main__":
     
     # Add optional arguments for ease of testing
     parser.add_argument("-o", "--objective", help = "Input objective (to ...)", type=str)
-    parser.add_argument("-t", "--temperature", help = "Input LLM prompting temperature [0,1]", type=float)
-    parser.add_argument("-m", "--model", help = "Input LLM model (e.g., gpt-4)", type=float)
-    parser.add_argument("-d", "--long_term_memory", help = "Location on disk to save long-term memory", type=float)
+    parser.add_argument("-t", "--temperature", help = "Input LLM prompting temperature [0,1] (default: 1.0)", type=float)
+    parser.add_argument("-m", "--model", help = "Input LLM model (default: gpt-4)", type=float)
+    parser.add_argument("-d", "--long_term_memory", help = "Location on disk to save long-term memory (default: .)", type=float)
     parser.add_argument("-a", "--autopilot", help = "DANGEROUS: accept all commands until program self-terminates", action=argparse.BooleanOptionalAction)
     
     # Read arguments from command line
