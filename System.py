@@ -1,15 +1,17 @@
 import os
 import subprocess
 import tempfile
+import time
 from colorama import Fore
 from colorama import Back
 from colorama import Style
 
 class System:
-    def __init__(self):
+    def __init__(self, autopilot_: bool):
         
         # Keep track of the current working directory
         self.cwd = os.getcwd()
+        self._autopilot = autopilot_
 
     def execute(self, llm_output_) -> str:
         """Execute code contained in `llm_output_` as a shell command."""
@@ -17,7 +19,7 @@ class System:
         # Ask human for approval to continue
         # If LLM wants to stop and human wants to stop, both **STOP** and **CONTINUE** have the same effect
         # If LLM wants to stop but human wants to continue, human can give feedback like "you're not done yet"
-        input_ = System._human_in_the_loop()
+        input_ = self._human_in_the_loop()
         if input_ == "**STOP**":
             return "**STOP**"
         elif input_ != "**CONTINUE**":
@@ -117,11 +119,15 @@ class System:
             n -= 1
         return start
 
-    @staticmethod
-    def _human_in_the_loop():
+    def _human_in_the_loop(self):
         """Get human approval to continue program execution. This is the only human intervention in the program."""
 
+        # TODO change these returns to enumerated types
         print("")
+        if self._autopilot:
+            print(f"{Back.GREEN}Approved on autopilot{Style.RESET_ALL}")
+            return "**CONTINUE**"
+
         human_input_ = input(f"Approved? {Back.GREEN}y=Yes{Style.RESET_ALL}, {Back.RED}n=No{Style.RESET_ALL}, Anything else=Feedback to LLM\n")
         if human_input_ == "y":
             return "**CONTINUE**"

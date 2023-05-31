@@ -18,7 +18,7 @@ class Agent():
         self.model = Interface(args.temperature, args.model)
 
         # Create System singleton instance as attribute
-        self.system = System()
+        self.system = System(args.autopilot)
 
         # Create OpeningPrompt singleton instance
         op = OpeningPrompt(args.objective)
