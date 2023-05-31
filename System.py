@@ -1,5 +1,6 @@
 import os
 import subprocess
+import tempfile
 from colorama import Fore
 from colorama import Back
 from colorama import Style
@@ -23,6 +24,7 @@ class System:
         # Parse the LLM output text for code
         llm_code_ = System._parse_output_for_code(llm_output_)
 
+        # TODO change this to _parse_output_for_code raising errors and excepting them here
         # Complain if `llm_code_` is empty and return
         if llm_code_ == "**NO CODE BLOCK**":
             return "No shell command received. Nothing to execute."
@@ -31,27 +33,32 @@ class System:
 
         # Append cwd check to code to keep track of it
         split_kwd = "**PWD**"
-        llm_code_ += f" && echo '{split_kwd}' && pwd"
+        llm_code_ += f"\necho '{split_kwd}'\npwd"
+
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+            temp_file.write(llm_code_)
+            temp_file_path = temp_file.name
 
         # Execute `llm_code_` as a shell command, capture any errors in execution        
         try:
-            out = subprocess.run(llm_code_, 
-                                 shell=True, check=True, capture_output=True, text=True, cwd=self.cwd).stdout
+            out = subprocess.run(['bash', temp_file_path],
+                       check=True, capture_output=True, text=True, cwd=self.cwd).stdout
         except Exception as e:
             out = f"Shell command exited with status {e.returncode}"
             out += f"\nCommand was: {e.cmd}"
             out += f"\nstdout was: {e.stdout}"
             if e.stderr:
                 out += f"\nstderr was: {e.stderr}"
-            # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it was before the part of the command that failed
+            # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it succeeded before the part of the command that failed
             return out
+        finally:
+            os.remove(temp_file_path)
 
         # Parse the cwd from the output
         out, cwd_ = out.split(split_kwd)
         self.cwd = "".join(cwd_.split())
         
-        # Add a message to let the LLM know when a 
-        #  shell command that generates no stdout output is successful  
+        # Add a message to let the LLM know when a shell command that generates no stdout output is successful  
         if out == "" or out.isspace():
             out = "Shell command executed successfully. No output was generated."
 
