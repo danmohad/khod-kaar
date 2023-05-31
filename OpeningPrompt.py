@@ -36,7 +36,7 @@ Your home directory is `/workspaces/khod-kaar`. You are free to create a new dir
 
 The first user prompt will be the result of executing `uname -a && lscpu`, to give you an idea of your environment. All subsequent user prompts will be the `stdout` output resulting from your immediately previous shell command.  There is no human intervention in your program, except that your shell commands are subject to human approval prior to execution. If the human does not approve of your intended action, only then will they intervene and provide you with feedback beginning with 'Code not executed. Human in the loop says:', followed by their feedback. You should not solicit the human's feedback, as you are an independent software agent.
 
-When you have achieved your objective, you will simply output 'Satisfied.', which will gracefully stop your program."""
+When you have achieved your objective, you will simply output '**STOP**', which will gracefully stop your program."""
             },
             {'role': Roles.user.name,
              'content': f"{subprocess.run('uname -a && lscpu',shell=True, capture_output=True, text=True).stdout}"

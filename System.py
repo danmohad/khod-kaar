@@ -15,11 +15,17 @@ class System:
         """Execute code contained in `llm_output_` as a shell command."""
 
         # Ask human for approval to continue
+        # If LLM wants to stop and human wants to stop, both **STOP** and **CONTINUE** have the same effect
+        # If LLM wants to stop but human wants to continue, human can give feedback like "you're not done yet"
         input_ = System._human_in_the_loop()
         if input_ == "**STOP**":
-            raise RuntimeError("Action not approved. Stopping the program.")
+            return "**STOP**"
         elif input_ != "**CONTINUE**":
             return "Code not executed. Human in the loop says:\n" + input_
+
+        # Check if LLM wants to stop execution
+        if "**STOP**" in llm_output_:
+            return "**STOP**"
 
         # Parse the LLM output text for code
         llm_code_ = System._parse_output_for_code(llm_output_)

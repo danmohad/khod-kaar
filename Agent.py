@@ -31,7 +31,7 @@ class Agent():
             self.memory.memorize(p['content'], p['role'])
 
     def satisfied(self):
-        if self.memory.memories[-1].get('content', None) == "Satisfied.":
+        if "**STOP**" in self.memory.memories[-1].get('content', None):
             return True
         else:
             return False
