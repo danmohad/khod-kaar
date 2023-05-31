@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "/workspaces/khod-kaar/khod-kaar.py",
-            "args": ["-t", "0.0", "-o", "to write a program in Python that uses a conditional GAN architecture trained on the MNIST dataset to generate specific digits. Both training and inference should be done on the local hardware."],
+            "args": ["-m", "gpt-3.5-turbo", "-t", "0.5", "-o", "to write, test and execute a simple Python program that writes 'Hello, World!'."],
             "console": "integratedTerminal",
             "justMyCode": true
         }
