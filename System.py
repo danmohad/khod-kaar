@@ -92,8 +92,7 @@ class System:
         # Return the code appearing between the instances of `code_start_stop_substr_`
         code_ = output_[code_start_:code_stop_]
 
-        # Deal with the LLM sometimes starting code with "```bash", assuming "bash" only appears once
-        # TODO this might not work properly
+        # Deal with the LLM sometimes starting code with "```bash", assuming "bash" only appears once with no flags e.g. `-c`.
         code_ = code_.split("bash\n")[-1]
         return code_
 
