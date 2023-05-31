@@ -18,6 +18,8 @@ RUN python3 -m pip install --upgrade setuptools
 # Install Chromium for web browsing
 RUN apt-get install -y chromium-driver
 
+RUN apt-get install -y vim
+
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 COPY ../requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
