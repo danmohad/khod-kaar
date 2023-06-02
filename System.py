@@ -47,7 +47,8 @@ class System:
             temp_file.write(llm_code_)
             temp_file_path = temp_file.name
 
-        # Execute `llm_code_` as a shell command, capture any errors in execution        
+        # Execute `llm_code_` as a shell command, capture any errors in execution
+        # TODO When a command fails, sometimes the exit code is still 0 because the "pwd" command that follows it actually succeeds. Must somehow capture error codes mid-file execution, or break into multiple files ( :( )
         try:
             out = subprocess.run(['bash', temp_file_path],
                        check=True, capture_output=True, text=True, cwd=self.cwd).stdout
