@@ -49,6 +49,7 @@ class System:
 
         # Execute `llm_code_` as a shell command, capture any errors in execution
         # TODO When a command fails, sometimes the exit code is still 0 because the "pwd" command that follows it actually succeeds. Must somehow capture error codes mid-file execution, or break into multiple files ( :( )
+        # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
         try:
             out = subprocess.run(['bash', temp_file_path],
                        check=True, capture_output=True, text=True, cwd=self.cwd).stdout
