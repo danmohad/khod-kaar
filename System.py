@@ -30,7 +30,9 @@ class System:
             return "**STOP**"
 
         # Parse the LLM output text for code
-        llm_code_ = System._parse_output_for_code(llm_output_)
+        # DEBUG
+        llm_code_ = llm_output_
+        # llm_code_ = System._parse_output_for_code(llm_output_)
 
         # TODO change this to _parse_output_for_code raising errors and excepting them here
         # Complain if `llm_code_` is empty and return
@@ -48,18 +50,29 @@ class System:
             temp_file_path = temp_file.name
 
         # Execute `llm_code_` as a shell command, capture any errors in execution
-        # TODO When a command fails, sometimes the exit code is still 0 because the "pwd" command that follows it actually succeeds. Must somehow capture error codes mid-file execution, or break into multiple files ( :( )
+        
         # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
         try:
-            out = subprocess.run(['bash', temp_file_path],
-                       check=True, capture_output=True, text=True, cwd=self.cwd).stdout
-        except Exception as e:
+            sp = subprocess.run(['bash', temp_file_path],
+                       check=True, capture_output=True, text=True, cwd=self.cwd)
+            # When a command fails, sometimes the exit code is still 0 and subprocess doesn't raise an error because the final "pwd" command succeeds. In these cases, stderr will be non-empty.
+            if sp.stderr:
+                raise ValueError
+            else:
+                out = sp.stdout
+        except subprocess.CalledProcessError as e:
             out = f"Shell command exited with status {e.returncode}"
             out += f"\nCommand was: {e.cmd}"
             out += f"\nstdout was: {e.stdout}"
             if e.stderr:
                 out += f"\nstderr was: {e.stderr}"
             # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it succeeded before the part of the command that failed
+            return out
+        except ValueError:
+            out = f"Shell command wrote to stderr"
+            # out += f"\nCommand was: {sp.cmd}" # TODO parse this from the temporary file
+            out += f"\nstdout was: {sp.stdout}" # might be unnecessary to output stdout, and might be confusing since contains the echo and pwd commands
+            out += f"\nstderr was: {sp.stderr}"
             return out
         finally:
             os.remove(temp_file_path)
