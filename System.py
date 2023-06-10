@@ -30,9 +30,7 @@ class System:
             return "**STOP**"
 
         # Parse the LLM output text for code
-        # DEBUG
-        llm_code_ = llm_output_
-        # llm_code_ = System._parse_output_for_code(llm_output_)
+        llm_code_ = System._parse_output_for_code(llm_output_)
 
         # TODO change this to _parse_output_for_code raising errors and excepting them here
         # Complain if `llm_code_` is empty and return
