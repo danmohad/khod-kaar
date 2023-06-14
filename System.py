@@ -12,14 +12,14 @@ class System:
         # Keep track of the current working directory
         self.cwd = os.getcwd()
         self._autopilot = autopilot_
+        self.split_kwd = "**PWD**"
 
-    def _prepare_command(llm_code: str) -> str:
+    def _prepare_command(self, llm_code: str) -> str:
 
         # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
 
         # Append cwd check to code to keep track of it
-        split_kwd = "**PWD**"
-        llm_code_ += f"\necho '{split_kwd}'\npwd"
+        llm_code_ += f"\necho '{self.split_kwd}'\npwd"
 
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
             temp_file.write(llm_code_)
@@ -53,7 +53,7 @@ class System:
         elif llm_code_ == "**MULTIPLE CODE BLOCKS**":
             return "Multiple code blocks received. Only one code block can be provided at a time."
 
-        temp_file_path = System._prepare_command(llm_code_)
+        temp_file_path = self._prepare_command(llm_code_)
 
         # Execute `llm_code_` as a shell command, capture any errors in execution
         try:
@@ -82,7 +82,7 @@ class System:
             os.remove(temp_file_path)
 
         # Parse the cwd from the output
-        out, cwd_ = out.split(split_kwd)
+        out, cwd_ = out.split(self.split_kwd)
         self.cwd = "".join(cwd_.split())
         
         # Add a message to let the LLM know when a shell command that generates no stdout output is successful  
