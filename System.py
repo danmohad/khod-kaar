@@ -16,7 +16,7 @@ class System:
 
     def _prepare_command(self, llm_code_: str) -> str:
         """Prepare command in `llm_code_` for execution as a subprocess."""
-        
+
         # Append cwd check to code to keep track of it
         llm_code_ += f"\necho '{self.split_kwd}'\npwd"
 
@@ -72,6 +72,7 @@ class System:
             # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it succeeded before the part of the command that failed
             return out
         except ValueError:
+            # TODO maybe this is unnecessary, and this method can always output stdout and stderr to the LLM, since some commands that don't have an error write to stderr with "warnings"
             out = f"Shell command wrote to stderr"
             # out += f"\nCommand was: {sp.cmd}" # TODO parse this from the temporary file
             out += f"\nstdout was: {sp.stdout}" # might be unnecessary to output stdout, and might be confusing since contains the echo and pwd commands
