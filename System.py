@@ -13,6 +13,20 @@ class System:
         self.cwd = os.getcwd()
         self._autopilot = autopilot_
 
+    def _prepare_command(llm_code: str) -> str:
+
+        # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
+
+        # Append cwd check to code to keep track of it
+        split_kwd = "**PWD**"
+        llm_code_ += f"\necho '{split_kwd}'\npwd"
+
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+            temp_file.write(llm_code_)
+            temp_file_path = temp_file.name
+
+        return temp_file_path
+    
     def execute(self, llm_output_) -> str:
         """Execute code contained in `llm_output_` as a shell command."""
 
@@ -39,17 +53,9 @@ class System:
         elif llm_code_ == "**MULTIPLE CODE BLOCKS**":
             return "Multiple code blocks received. Only one code block can be provided at a time."
 
-        # Append cwd check to code to keep track of it
-        split_kwd = "**PWD**"
-        llm_code_ += f"\necho '{split_kwd}'\npwd"
-
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
-            temp_file.write(llm_code_)
-            temp_file_path = temp_file.name
+        temp_file_path = System._prepare_command(llm_code_)
 
         # Execute `llm_code_` as a shell command, capture any errors in execution
-        
-        # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
         try:
             sp = subprocess.run(['bash', temp_file_path],
                        check=True, capture_output=True, text=True, cwd=self.cwd)
