@@ -14,7 +14,7 @@ class System:
         self._autopilot = autopilot_
         self.split_kwd = "**PWD**"
 
-    def _prepare_command(self, llm_code: str) -> str:
+    def _prepare_command(self, llm_code_: str) -> str:
 
         # TODO This results in "literal" \n: echo "requests\nbeautifulsoup4\npandas" > requirements2.txt. That's a problem.
 
