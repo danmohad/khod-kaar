@@ -1,3 +1,4 @@
+pytest
 openai
 tiktoken
 colorama
