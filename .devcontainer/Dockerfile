@@ -1,3 +1,5 @@
+# TODO Add a Dockerfile for just running the containerized application, not VSCode
+
 # [Choice] Python version (use -bullseye variants on local arm64/Apple Silicon): 3, 3.10, 3-bullseye, 3.10-bullseye, 3-buster, 3.10-buster
 ARG VARIANT=3-bullseye
 FROM python:3.10
