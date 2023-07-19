@@ -3,8 +3,16 @@ import argparse
 from Roles import Roles
 from Agent import Agent
 
-def khodkaar(args_):
-    agent = Agent(args_)
+def khodkaar() -> None:
+    """Top-level function to allow integration tests in CI.
+    
+        Arguments:
+            none
+            
+        Returns:
+            none"""
+
+    agent = Agent(parse_args())
 
     while not agent.satisfied():
         agent.memory.memorize(agent.model.send_prompt(agent.memory.memories), Roles.assistant.name)
@@ -13,7 +21,15 @@ def khodkaar(args_):
         agent.status_check()
         agent.memory.short_to_long_term()
 
-if __name__ == "__main__":
+def parse_args() -> argparse.Namespace:
+    """Wrapper function for argparse to perform command-line argument parsing.
+        
+        Arguments:
+            none
+            
+        Returns:
+            object containing parsed command-line arguments"""
+    
     # Initialize parser
     parser = argparse.ArgumentParser()
     
@@ -24,8 +40,11 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--long_term_memory", help = "Location on disk to save long-term memory (default: .)", type=str)
     parser.add_argument("-a", "--autopilot", help = "DANGEROUS: accept all commands until program self-terminates", action=argparse.BooleanOptionalAction)
     
-    # Read arguments from command line
-    args = parser.parse_args()
+    # Read and return arguments from command line
+    return parser.parse_args()
 
-    # Run program
-    khodkaar(args)
+
+if __name__ == "__main__":
+    """Clause to allow running the program as an executable."""
+
+    khodkaar()
