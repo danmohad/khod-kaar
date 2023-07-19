@@ -1,4 +1,4 @@
-# Khod-Nevis: An LLM-based code-writing agent
+# Khod-Kaar: An LLM-based code-writing agent
 
 [![khod-kaar CI](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml/badge.svg)](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml)
 
@@ -17,7 +17,7 @@ This repo is under an MIT License. Still, I urge you to be responsible with the 
 It's not difficult to think of ways to perform nefarious and antisocial actions with AI in general and LLMs in particular. Don't do them.
 
 ## Don't be dumb
-Understand that `khod-nevis` interacts with the shell where it is run. Commands and code executed by `khod-nevis` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-nevis` will execute before approving it. Exercise extreme caution in using the autopilot `-a` flag.
+Understand that `khod-kaar` interacts with the shell where it is run. Commands and code executed by `khod-kaar` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-kaar` will execute before approving it. Exercise extreme caution in using the autopilot `-a` flag.
 
 ## How to run it
 
