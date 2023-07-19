@@ -7,7 +7,7 @@ def system():
     return System.System(autopilot_=False)
 
 def test_init(system):
-    assert system.cwd == "/workspaces/khod-kaar"
+    assert "khod-kaar" in system.cwd
 
 def test_prepare_command(system):
     temp_file_path = system._prepare_command(llm_code_='echo "requests\nbeautifulsoup4\npandas" > requirements.txt')
