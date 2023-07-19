@@ -1,6 +1,6 @@
 # Khod-Nevis: An LLM-based code-writing agent
 
-TODO -- tests passing / failing -- 
+[![khod-kaar CI](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml/badge.svg)](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml)
 
 ## What is it
 A program to write, test, document and execute arbitrary code.
