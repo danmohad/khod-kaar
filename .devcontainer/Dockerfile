@@ -20,7 +20,16 @@ RUN python3 -m pip install --upgrade setuptools
 # Install Chromium for web browsing
 RUN apt-get install -y chromium-driver
 
+# Install vim for command-line file editing
 RUN apt-get install -y vim
+
+# Install java and graphviz for PlantUML
+RUN apt-get install -y default-jre graphviz
+
+# Get PlantUML .jar
+RUN wget -O plantuml.jar http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+RUN mkdir /usr/local/plantuml
+RUN mv plantuml.jar /usr/local/plantuml/plantuml.jar
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 COPY ../requirements.txt /tmp/pip-tmp/
