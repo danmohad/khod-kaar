@@ -36,7 +36,7 @@ class System:
         if input_ == "**STOP**":
             return "**STOP**"
         elif input_ != "**CONTINUE**":
-            return "Code not executed. Human in the loop says:\n" + input_
+            return "No code executed. Human in the loop says:\n" + input_
 
         # Check if LLM wants to stop execution
         if "**STOP**" in llm_output_:
@@ -147,10 +147,10 @@ class System:
             print(f"{Back.GREEN}Approved on autopilot{Style.RESET_ALL}")
             return "**CONTINUE**"
 
-        human_input_ = input(f"Approved? {Back.GREEN}y=Yes{Style.RESET_ALL}, {Back.RED}n=No{Style.RESET_ALL}, Anything else=Feedback to LLM\n")
-        if human_input_ == "y":
+        human_input_ = input(f"{Back.GREEN}e=Execute code{Style.RESET_ALL}, {Back.RED}q=Quit{Style.RESET_ALL}, {Back.BLUE}Anything else=Feedback to LLM{Style.RESET_ALL}\n")
+        if human_input_ == "e":
             return "**CONTINUE**"
-        elif human_input_ == "n":
+        elif human_input_ == "q":
             return "**STOP**"
         else:
             return human_input_
