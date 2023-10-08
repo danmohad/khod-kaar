@@ -12,7 +12,7 @@ from OpeningPrompt import OpeningPrompt
 class Agent():
     def __init__(self, args) -> None:
         # Create Memory singleton instance as attribute
-        self.memory = Memory(args.model, args.long_term_memory)
+        self.memory = Memory(args.model, args.output_dir)
         
         # Create Model singleton instance as attribute
         self.model = Interface(args.temperature, args.model)

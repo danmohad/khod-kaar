@@ -5,13 +5,15 @@ import tiktoken
 class Memory():
     """Singleton class containing the full conversation history of LLM inputs, LLM outputs and code execution outputs in the `memories` attribute."""
     
-    def __init__(self, model_, long_term_memory_):
+    def __init__(self, model_, output_dir_):
         """Initialization method for Memory"""
         
         self._model = model_
-        long_term_memory_ += "long_term_memory.json"
+        
         # Creation of output directory, if necessary
-        os.makedirs(os.path.dirname(long_term_memory_), exist_ok=True)
+        os.makedirs(output_dir_, exist_ok=True)
+        
+        long_term_memory_ = os.path.join(output_dir_, "long_term_memory.json")
         self._long_term_memory = long_term_memory_
         
         self.memories = []
