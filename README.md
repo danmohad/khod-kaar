@@ -9,6 +9,8 @@ A program to write, test, document and execute arbitrary code.
 -- Diagram --
 The code performs three key functions: interaction with an LLM, LLM output parsing for code, and code execution via the shell.
 
+## What's with the name?
+In many languages of south-central Asia and the Indian subcontinent, the word _khod_ means 'self' and _kaar_ means 'work' or 'action'. Thus, to many people, _khod kaar_ can render a meaning like 'autonomous action', which is what this repo does. _Khod_ also sounds like 'code', and _code kaar_ has a meaning approaching 'code worker', which is what this repo is. In Persian the term _khod kaar_ specifically means 'ball-point pen'. When compared to a quill or reed, a ball-point pen is certainly closer to autonomous action by easing the task of the writer, and that is also what this repo aims to do.
 
 ## MIT License
 This repo is under an MIT License. Still, I urge you to be responsible with the abilities it gives you.
