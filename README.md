@@ -28,7 +28,7 @@ Understand that `khod-kaar` interacts with the shell where it is run. Commands a
 Running the code in a containerized environment is safer for your file system. A Docker file is provided with the repo to set up a Debian environment with some common dependencies.
 
 ## Contributing
-Forks and pull requests are welcome! For some ideas on what to work on, see the `Good first issues`. Please adhere to the Google style guide for Python TODO --link--.
+Forks and pull requests are welcome! For some ideas on what to work on, see the `Good first issues`. Please adhere to the [Google style guide for Python](https://google.github.io/styleguide/pyguide.html).
 
 ## Ready-for-dev with VSCode
 The easiest way to get started contributing to `khod-kaar` is by loading it as a dev container in VSCode. 
