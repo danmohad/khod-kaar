@@ -21,7 +21,7 @@ class Agent():
         self.system = System(args.autopilot)
 
         # Create OpeningPrompt singleton instance
-        op = OpeningPrompt(args.objective)
+        op = OpeningPrompt(args.output_dir, args.objective)
 
         # Keep track of objective
         self.objective = op.objective
