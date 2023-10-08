@@ -1,14 +1,18 @@
+import os
 import json
 import tiktoken
 
 class Memory():
     """Singleton class containing the full conversation history of LLM inputs, LLM outputs and code execution outputs in the `memories` attribute."""
     
-    def __init__(self, model_ = "gpt-4", long_term_memory_ = "./long_term_memory.json"):
+    def __init__(self, model_, long_term_memory_):
         """Initialization method for Memory"""
         
-        self._model = "gpt-4" if model_ is None else model_
-        self._long_term_memory = "./long_term_memory.json" if long_term_memory_ is None else long_term_memory_
+        self._model = model_
+        long_term_memory_ += "long_term_memory.json"
+        # Creation of output directory, if necessary
+        os.makedirs(os.path.dirname(long_term_memory_), exist_ok=True)
+        self._long_term_memory = long_term_memory_
         
         self.memories = []
         self.total_token_count = 0
