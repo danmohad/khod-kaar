@@ -1,4 +1,4 @@
-# Khod-Kaar: An LLM-based code-writing agent
+# Khod-Kaar: An LLM-powered code-writing and code-executing agent
 
 [![khod-kaar CI](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml/badge.svg)](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml)
 
@@ -57,8 +57,11 @@ It's not difficult to think of ways to perform nefarious and antisocial actions 
 ## Don't be reckless
 Understand that `khod-kaar` interacts with the shell where it is run. Commands and code executed by `khod-kaar` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-kaar` will execute before approving it. Exercise extreme caution in using the autopilot `-a` flag, as it is meant primarily for debugging and demonstration purposes and __will execute arbitrary code on your machine witout your consent and outside of your control__. 
 
+## Similar projects and inspirations
+There are so many LLM-agent type projects now, there's no way to list them all. Suffice it to say that I make no claim that the concepts here are not present in other projects. I was inspired by [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) to make an LLM-agent with plenty of autonomy, but I wanted the user to be able to exercise control at any time during execution, in case the LLM was getting stuck in a loop somewhere. I wanted to build an LLM-based software engineer, and I liked the 'first discussion, then code' approach of [gpt-engineer](https://github.com/AntonOsika/gpt-engineer), but I wanted to do more than just text generation. I wanted to close the feedback loop for the LLM, so that it could actually execute and test the code that it was generating, and use the results to make modifications as needed. That's what `khod-kaar` does.
+
 ## Contributing
-Forks and pull requests are welcome! For some ideas on what to work on, see the [issues](https://github.com/danmohad/khod-kaar/issues). Please adhere to the [Google style guide for Python](https://google.github.io/styleguide/pyguide.html).
+Pull requests are welcome! For some ideas on what to work on, see the [issues](https://github.com/danmohad/khod-kaar/issues). Please follow the [Google style guide for Python](https://google.github.io/styleguide/pyguide.html).
 
 ## What's with the name?
-In many languages of south-central Asia and the Indian subcontinent, the word _khod_ means 'self' and _kaar_ means 'work' or 'action'. Thus, to many people, _khod kaar_ can render a meaning like 'autonomous action', which is what this repo does. _Khod_ also sounds like 'code', and _code kaar_ has a meaning approaching 'code worker', which is what this repo is. In Persian the term _khod kaar_ specifically means 'ball-point pen'. When compared to a quill or reed, a ball-point pen is certainly closer to autonomous action by easing the task of the writer, and that is also what this repo aims to do.
+In many languages of south-central Asia and the Indian subcontinent, the word _khod_ means 'self' and _kaar_ means 'work' or 'action'. Thus, to many people, _khod kaar_ can render a meaning like 'autonomous action', which is what this repo does. _Khod_ also sounds like 'code', and _code kaar_ has a meaning approaching 'code worker' in those same languages, which is what this repo is. In Persian the term _khod kaar_ specifically means 'ball-point pen'. When compared to a quill or reed, a ball-point pen is certainly closer to autonomous action by easing the task of the writer, and that is also what this repo aims to do.
