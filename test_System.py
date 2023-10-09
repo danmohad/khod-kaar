@@ -15,5 +15,5 @@ def test_prepare_command(system):
         lines = fp.readlines()
         n_lines = len(lines)
     os.remove(temp_file_path)
-    # 3 from command, 2 from split_kwd + pwd
-    assert n_lines == 3 + 2
+    # 3 from command, 3 from split_kwd + pwd
+    assert n_lines == 3 + 3
