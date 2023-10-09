@@ -48,7 +48,10 @@ class System:
         # TODO change this to _parse_output_for_code raising errors and excepting them here
         # Complain if `llm_code_` is empty and return
         if llm_code_ == "**NO CODE BLOCK**":
-            return "No shell command received. Nothing to execute."
+            # If in autopilot mode, then this will just ask the LLM to do what it thinks is best.
+            # If not in autopilot mode, the user should notice if no code block AND there should be,
+            # and should then give direct feedback to LLM
+            return "I agree with your approach. Continue."
         elif llm_code_ == "**MULTIPLE CODE BLOCKS**":
             return "Multiple code blocks received. Only one code block can be provided at a time."
 
@@ -148,7 +151,7 @@ class System:
             print(f"{Back.GREEN}Approved on autopilot{Style.RESET_ALL}")
             return "**CONTINUE**"
 
-        human_input_ = input(f"{Back.GREEN}e=Execute code{Style.RESET_ALL}, {Back.RED}q=Quit{Style.RESET_ALL}, {Back.BLUE}Anything else=Feedback to LLM{Style.RESET_ALL}\n")
+        human_input_ = input(f"{Back.GREEN}e=Send agreement message if no code, else execute code{Style.RESET_ALL}, {Back.RED}q=Quit{Style.RESET_ALL}, {Back.BLUE}Anything else=Feedback to LLM{Style.RESET_ALL}\n")
         if human_input_ == "e":
             return "**CONTINUE**"
         elif human_input_ == "q":
