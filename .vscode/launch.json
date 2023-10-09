@@ -5,7 +5,7 @@
             "name": "Simple test",
             "type": "python",
             "request": "launch",
-            "program": "/workspaces/khod-kaar/khod-kaar.py",
+            "program": "/workspaces/khod-kaar/khod_kaar.py",
             "args": ["-m", "gpt-4", "-t", "0.0", "-a", "-o", "to write, test and execute a simple Python program that writes 'Hello, World!'."],
             "console": "integratedTerminal",
             "justMyCode": true
@@ -14,7 +14,7 @@
             "name": "Complex test",
             "type": "python",
             "request": "launch",
-            "program": "/workspaces/khod-kaar/khod-kaar.py",
+            "program": "/workspaces/khod-kaar/khod_kaar.py",
             "args": ["-m", "gpt-4", "-t", "1.0", "-o", "to write, test and execute a program to buy or sell stocks in the real world. The user will provide the stock ticker and the quantity to buy or sell."],
             "console": "integratedTerminal",
             "justMyCode": true

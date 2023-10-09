@@ -3,7 +3,7 @@ import argparse
 from Roles import Roles
 from Agent import Agent
 
-def khodkaar() -> None:
+def khod_kaar() -> None:
     """Top-level function to allow integration tests in CI.
     
         Arguments:
@@ -47,4 +47,4 @@ def parse_args() -> argparse.Namespace:
 if __name__ == "__main__":
     """Clause to allow running the program as an executable."""
 
-    khodkaar()
+    khod_kaar()
