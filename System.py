@@ -18,7 +18,7 @@ class System:
         """Prepare command in `llm_code_` for execution as a subprocess."""
 
         # Append cwd check to code to keep track of it
-        llm_code_ += f"\necho '{self.split_kwd}'\npwd"
+        llm_code_ += f"\necho '{self.split_kwd}'\npwd\necho '{self.split_kwd}'"
 
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
             temp_file.write(llm_code_)
@@ -52,38 +52,39 @@ class System:
         elif llm_code_ == "**MULTIPLE CODE BLOCKS**":
             return "Multiple code blocks received. Only one code block can be provided at a time."
 
-        temp_file_path = self._prepare_command(llm_code_)
+        temp_file_path_ = self._prepare_command(llm_code_)
 
         # Execute `llm_code_` as a shell command, capture any errors in execution
         try:
-            sp = subprocess.run(['bash', temp_file_path],
+            sp = subprocess.run(['bash', temp_file_path_],
                        check=True, capture_output=True, text=True, cwd=self.cwd)
             # When a command fails, sometimes the exit code is still 0 and subprocess doesn't raise an error because the final "pwd" command succeeds. In these cases, stderr will be non-empty.
             if sp.stderr:
                 raise ValueError
             else:
-                out = sp.stdout
+                raw_out_ = sp.stdout
         except subprocess.CalledProcessError as e:
-            out = f"Shell command exited with status {e.returncode}"
-            out += f"\nCommand was: {e.cmd}"
-            out += f"\nstdout was: {e.stdout}"
+            raw_out_ = f"Shell command exited with status {e.returncode}"
+            raw_out_ += f"\nCommand was: {e.cmd}"
+            raw_out_ += f"\nstdout was: {e.stdout}"
             if e.stderr:
-                out += f"\nstderr was: {e.stderr}"
+                raw_out_ += f"\nstderr was: {e.stderr}"
             # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it succeeded before the part of the command that failed
-            return out
+            return raw_out_
         except ValueError:
             # TODO maybe this is unnecessary, and this method can always output stdout and stderr to the LLM, since some commands that don't have an error write to stderr with "warnings"
-            out = f"Shell command wrote to stderr"
+            raw_out_ = f"Shell command wrote to stderr"
             # out += f"\nCommand was: {sp.cmd}" # TODO parse this from the temporary file
-            out += f"\nstdout was: {sp.stdout}" # might be unnecessary to output stdout, and might be confusing since contains the echo and pwd commands
-            out += f"\nstderr was: {sp.stderr}"
-            return out
+            raw_out_ += f"\nstdout was: {sp.stdout}" # might be unnecessary to output stdout, and might be confusing since contains the echo and pwd commands
+            raw_out_ += f"\nstderr was: {sp.stderr}"
+            return raw_out_
         finally:
-            os.remove(temp_file_path)
+            os.remove(temp_file_path_)
 
         # Parse the cwd from the output
-        out, cwd_ = out.split(self.split_kwd)
+        std_out_, cwd_, std_err_ = raw_out_.split(self.split_kwd)
         self.cwd = "".join(cwd_.split())
+        out = std_out_ + std_err_
         
         # Add a message to let the LLM know when a shell command that generates no stdout output is successful  
         if out == "" or out.isspace():
