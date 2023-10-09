@@ -1,0 +1,25 @@
+@startuml
+
+start
+
+:User gives objective;
+repeat
+  :Compose prompt;
+  :Send prompt to LLM and receive response;
+  :Parse response for UML of plan;
+  :Render UML diagram of plan;
+  :User views UML diagram and reads plan in natural language;
+repeat while (User accepts plan?) is (no)
+->yes;
+
+repeat
+  :Compose prompt from output streams or user feedback;
+  :Send prompt to LLM and receive response;
+  :Parse response for code;
+  :Execute code in shell and capture output streams;
+  :User views output streams and reads response in natural language;
+repeat while (User is satisfied? and LLM is satisfied?) is (no)
+->yes;
+stop
+
+@enduml
