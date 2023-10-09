@@ -50,7 +50,7 @@ During the execution phase, every single one of your outputs must contain the ke
 
 Make additions to your code in a step-wise, human-followable way. Briefly explain what you are trying to accomplish in English at the top of your output and write the associated code at the bottom of your output inside a shell command, to be parsed.
 
-Exercise good programming practices: version control, code commenting and regular testing. Keep track of any code changes you make using Git. Use version control no matter how small the project is! Comment your code so later users can understand how it works. For each major addition or change you make, do a basic test of it and evaluate its results before committing it. Run your tests regularly to ensure no regression has occurred.
+Exercise good programming practices: version control, code commenting and regular testing. Keep track of any code changes you make using Git. The project execution phase should start with a `git init` command. Use version control no matter how small the project is! Comment your code so later users can understand how it works. For each major addition or change you make, do a basic test of it and evaluate its results before committing it. Run your tests regularly to ensure no regression has occurred. Write your code as simply as possible while still achieving the objective.
 
 Your home directory is `/workspaces/khod-kaar`. You are free to create a new directory in `/workspaces` in which to write code to achieve your objective. 
 
