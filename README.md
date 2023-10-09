@@ -13,7 +13,7 @@ Since `khod-kaar` has direct access to the shell, it provides the LLM with direc
 
 When the user's objective is met, the program gracefully exits.
 
-The program flow is shown in the UML diagram below:
+The program flow is shown in the UML diagram below. Passing the `-a` flag activates full autonomy by presuming user agreement at both control points in the program flow, thereby only considering agent satisfaction as a control input. See [[Don't be reckless](#dont-be-reckless)] below.
 
 ![Program flow UML diagram](./.assets/diagram.png)
 
@@ -55,7 +55,7 @@ This repo is under an MIT License. Still, I urge you to be responsible with the 
 It's not difficult to think of ways to perform nefarious and antisocial actions with AI in general and LLMs in particular. Don't do them.
 
 ## Don't be reckless
-Understand that `khod-kaar` interacts with the shell where it is run. Commands and code executed by `khod-kaar` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-kaar` will execute before approving it. Exercise extreme caution in using the autopilot `-a` flag, as it is meant primarily for debugging and demonstration purposes and __will execute arbitrary code on your machine witout your consent and outside of your control__. 
+Understand that `khod-kaar` interacts with the shell where it is run. Commands and code executed by `khod-kaar` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-kaar` will execute before approving it. Exercise extreme caution in using the fully-autonomous `-a` flag, as it is meant primarily for debugging and demonstration purposes and __will execute arbitrary code on your machine witout your consent and outside of your control__. 
 
 ## Similar projects and inspirations
 There are so many LLM-agent type projects now, there's no way to list them all. Suffice it to say that I make no claim that the concepts here are not present in other projects. I was inspired by [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) to make an LLM-agent with plenty of autonomy, but I wanted the user to be able to exercise control at any time during execution, in case the LLM was getting stuck in a loop somewhere, which I found would often occur with `AutoGPT`. I wanted to build an LLM-based software engineer, and I liked the 'first discussion, then code' approach of [gpt-engineer](https://github.com/AntonOsika/gpt-engineer), but I wanted to do more than just code generation as text generation. I wanted to close the feedback loop for the LLM, so that it could actually execute and test the code that it was generating, and thereby use the results (and especially error messages) it generated to make modifications as needed. That's what `khod-kaar` does.
