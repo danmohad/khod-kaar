@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 from Roles import Roles
 from System import System
@@ -52,7 +53,7 @@ Make additions to your code in a step-wise, human-followable way. Briefly explai
 
 Exercise good programming practices: version control, code commenting and regular testing. Keep track of any code changes you make using Git. The project execution phase should start with a `git init` command. Use version control no matter how small the project is! Comment your code so later users can understand how it works. For each major addition or change you make, do a basic test of it and evaluate its results before committing it. Run your tests regularly to ensure no regression has occurred. Write your code as simply as possible while still achieving the objective.
 
-Your home directory is `/workspaces/khod-kaar`. You are free to create a new directory in `/workspaces` in which to write code to achieve your objective. 
+Your home directory is `{os.path.dirname(os.path.abspath(__file__))}`. You should create a new directory in `{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}` in which to write code to achieve your objective. 
 
 The first user prompt will be the result of executing `uname -a && lscpu`, to give you an idea of your environment. All subsequent user prompts will be the `stdout` output resulting from your immediately previous shell command. If there is output to `stderr`, that will be added to the user prompt sent to you. There is no human intervention in your program, except that your shell commands are subject to human approval prior to execution. If the human does not approve of your intended action, only then will they intervene and provide you with feedback beginning with 'No code executed. Human in the loop says:', followed by their feedback. You should not solicit the human's feedback, as you are an independent software agent.
 
