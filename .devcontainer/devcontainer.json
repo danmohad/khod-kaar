@@ -1,6 +1,6 @@
 {
   "build": {
-    "dockerfile": "./Dockerfile",
+    "dockerfile": "./Dockerfile.vscode",
     "context": "..",
     "args": {"OPENAI_API_KEY": "${localEnv:OPENAI_API_KEY}",
              "OPENAI_ORG_KEY": "${localEnv:OPENAI_ORG_ID}"}
