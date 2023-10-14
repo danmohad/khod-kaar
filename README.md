@@ -2,12 +2,11 @@
 
 [![khod-kaar CI](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml/badge.svg)](https://github.com/danmohad/khod-kaar/actions/workflows/ci-main.yml)
 
-## Description
 Given a user's objective, `khod-kaar` will develop, test, document and execute code autonomously to achieve that objective.
 
-`khod-kaar` will first guide the LLM to develop a plan for how to achieve the user's objective, and to output and render UML diagrams to show concretely the software development plan.
+`khod-kaar` will first guide the LLM to develop a plan for how to achieve the user's objective, and to output and render UML diagrams to show concretely the software development plan. This is called the 'discussion phase'.
 
-Once the user consents to the plan, `khod-kaar` will guide the LLM to develop code relevant to the user's goal in a step-wise manner, including version control and testing.
+Once the user consents to the plan, `khod-kaar` will guide the LLM to develop code relevant to the user's goal in a step-wise manner, including version control and testing. This is called the 'execution phase'. The user can step in and modify behavior by providing feedback to the LLM at any point in this phase.
 
 Since `khod-kaar` has direct access to the shell, it provides the LLM with direct feedback from program execution and testing.
 
@@ -18,43 +17,71 @@ The program flow is shown in the UML diagram below. Passing the `-a` flag activa
 ![Program flow UML diagram](./.assets/diagram.png)
 
 ## Requirements
-- A basic workstation
-- An internet connection
 - OpenAI API credentials
+- [`plantuml`](http://sourceforge.net/projects/plantuml/files/plantuml.jar/download) to render the UML diagrams
+- Python 3.9 or higher
+- `pytest`, `openai`, `tiktoken`, `colorama` packages
+- Docker, if using the recommended containerized build
 
-## Setup
+### Setup
 1. Clone the repo locally.
     - `git clone https://github.com/danmohad/khod-kaar`
 2. Navigate to the cloned repo.
     - `cd /path/to/khod-kaar`
-3. Ensure your OpenAI API credentials are available as environment variables. A `.env` file is most convenient for this.
-    - `OPENAI_API_KEY`
-    - `OPENAI_ORG_KEY`
-4. Ensure you have all dependencies installed.
-    - `java`, `graphviz` and [`plantuml`](http://sourceforge.net/projects/plantuml/files/plantuml.jar/download) to render the UML diagrams
-    - `python3` with all the packages in `requirements.txt`.  A python virtual environment is most convenient for this.
+3. Add your OpenAI API credentials as environment variables. 
+    - `OPENAI_API_KEY=<your api key>`
+    - `OPENAI_ORG_KEY=<your organization, if you have one>`
+4. Install dependencies
+    - Follow the ['local installation procedure' for `plantuml`](https://plantuml.com/starting).
+    - Run `pip install -r requirements.txt` in the repo's top-level directory.  A [python virtual environment](https://docs.python.org/3/library/venv.html) is most convenient for this.
 
 ### Containerized with Docker
-Running the code in a containerized environment saves you the trouble of any dependency installation, and is safer for your file system. A Docker file is provided with the repo to set up a Debian environment with the necessary dependencies.
+Running the code in a containerized environment saves you the trouble of any dependency installations, and is safer for your file system. A Docker file is provided with the repo to set up a Debian environment with the necessary dependencies.
+
+1. From the repo's top-level directory, build an image
+
+        docker build -t khodkaar:cmdline -f .devcontainer/Dockerfile.cmdline --build-arg OPENAI_API_KEY=<your API key> --build-arg OPENAI_ORG_KEY=<your organization, if you have one>
+
+2. Create and run a container from the image
+
+        docker run -it --rm khodkaar:cmdline
 
 ### Ready-for-dev with VSCode
 The easiest way to get started running and contributing to `khod-kaar` is by loading it as a dev container in VSCode. There are already some debugging cases set up in `.vscode/launch.json` to get you started.
 
-## How to run it
+1. Create a `.env` file in the repo's top-level directory with your OpenAI credentials.
+
+2. Open the repo's top-level directory in VSCode as a Dev Container.
+
+## Running
 Suppose your objective is "to write, test and execute a simple Python program that writes 'Hello, World!'" Then to get `khod-kaar` to do this for you, it is as simple as:
 ```
-python khod_kaar.py -o "to write, test and execute a simple Python program that writes 'Hello, World!'"
+python khod_kaar.py -m gpt-4 -t 0.0 -o "to write, test and execute a simple Python program that writes 'Hello, World!'.
 ```
 
 Additional parameters are available and can be viewed by executing `python khod_kaar.py --help`.
 
-## MIT License
+At every step in the interaction, you have the options to input:
+- `e`: Execute the code the LLM has output. If no code, send a canned message that you are in agreement with what the LLM is doing.
+- `q`: Quit gracefully.
+- _Anything else_: Don't execute any code, and instead give the text you provide as direct feedback to the LLM.
+
+In this way, you are always in control of the program's behavior, both in terms of interaction with the LLM and code execution on your machine, unless you use the `-a` flag. See [[Don't be reckless](#dont-be-reckless)] below.
+
+### Outputs
+`khod-kaar` will write and run the code it generates in a new directory outside the repo. In addition, three files are generated in the untracked `output` directory inside the repo: `.plantuml` code, the associated `.png` rendered UML diagram, and `long_term_memory.json`.
+
+To view the rendered UML diagram during execution, simply open the `.png` file. If you are running `khod-kaar` in Docker from the command line, then you must copy the image to the host first.
+
+The file `long_term_memory.json` contains all interactions with the LLM in OpenAI API format.
+
+## License
 This repo is under an MIT License. Still, I urge you to be responsible with the abilities it gives you.
 
-## Don't be evil
+### Don't be evil
 It's not difficult to think of ways to perform nefarious and antisocial actions with AI in general and LLMs in particular. Don't do them.
 
-## Don't be reckless
+### Don't be reckless
 Understand that `khod-kaar` interacts with the shell where it is run. Commands and code executed by `khod-kaar` may damage your machine or even other machines; it has just as much authority over the environment in which it is run as you do. Be sure you understand each shell command `khod-kaar` will execute before approving it. Exercise extreme caution in using the fully-autonomous `-a` flag, as it is meant primarily for debugging and demonstration purposes and __will execute arbitrary code on your machine witout your consent and outside of your control__. 
 
 ## Similar projects and inspirations
