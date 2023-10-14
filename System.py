@@ -72,19 +72,14 @@ class System:
             raw_out_ += f"\nstdout was: {e.stdout}"
             if e.stderr:
                 raw_out_ += f"\nstderr was: {e.stderr}"
-            # Assumes that if there was a directory change in the command, it can be safely ignored, and that the LLM won't assume that the directory change took place, even if it succeeded before the part of the command that failed
-            return raw_out_
         except ValueError:
-            # TODO maybe this is unnecessary, and this method can always output stdout and stderr to the LLM, since some commands that don't have an error write to stderr with "warnings"
             raw_out_ = f"Shell command wrote to stderr"
-            # out += f"\nCommand was: {sp.cmd}" # TODO parse this from the temporary file
-            raw_out_ += f"\nstdout was: {sp.stdout}" # might be unnecessary to output stdout, and might be confusing since contains the echo and pwd commands
+            raw_out_ += f"\nstdout was: {sp.stdout}"
             raw_out_ += f"\nstderr was: {sp.stderr}"
-            return raw_out_
         finally:
             os.remove(temp_file_path_)
 
-        # Parse the cwd from the output
+        # Parse the cwd from the output, remove from `out` so LLM doesn't see commands it didn't issue
         std_out_, cwd_, std_err_ = raw_out_.split(self.split_kwd)
         self.cwd = "".join(cwd_.split())
         out = std_out_ + std_err_
