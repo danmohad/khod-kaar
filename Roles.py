@@ -1,3 +1,9 @@
+"""
+File: Roles.py
+Author: Danyal Mohaddes
+Description: This file contains the Roles enumeration.
+"""
+
 from enum import Enum
 
 class Roles(Enum):

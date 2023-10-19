@@ -1,3 +1,9 @@
+"""
+File: System.py
+Author: Danyal Mohaddes
+Description: This file contains the System class.
+"""
+
 import os
 import subprocess
 import tempfile

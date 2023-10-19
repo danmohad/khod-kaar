@@ -1,3 +1,9 @@
+"""
+File: khod_kaar.py
+Author: Danyal Mohaddes
+Description: This file contains the top-level functions for running the program.
+"""
+
 import argparse
 
 from Roles import Roles

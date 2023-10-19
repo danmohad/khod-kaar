@@ -1,3 +1,9 @@
+"""
+File: Agent.py
+Author: Danyal Mohaddes
+Description: This file contains the Agent class.
+"""
+
 import os
 from colorama import init as colorama_init
 from colorama import Fore

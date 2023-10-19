@@ -1,3 +1,9 @@
+"""
+File: Interface.py
+Author: Danyal Mohaddes
+Description: This file contains classes for interfacing LLMs.
+"""
+
 import openai
 import os
 

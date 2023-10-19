@@ -1,3 +1,9 @@
+"""
+File: Memory.py
+Author: Danyal Mohaddes
+Description: This file contains the Memory class.
+"""
+
 import os
 import json
 import tiktoken

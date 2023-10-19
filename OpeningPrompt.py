@@ -1,3 +1,9 @@
+"""
+File: OpeningPrompt.py
+Author: Danyal Mohaddes
+Description: This file contains the OpeningPrompt class.
+"""
+
 import subprocess
 import os
 
