@@ -80,7 +80,14 @@ class Agent():
 
         print("")
         if role_ == Roles.assistant.name:
-            term_size = os.get_terminal_size()
-            print('=' * term_size.columns)
+            try:
+                term_size = os.get_terminal_size()
+                columns = term_size.columns
+            except OSError as e:
+                # pytest doesn't like os.get_terminal_size()
+                columns = 10
+            finally:
+                print('=' * columns)
+            
         print(f"Tokens used: {self.memory.total_token_count}")
         print(f"{color_dict[role_]}{role_}{Style.RESET_ALL}: {last_memory_['content']}")
