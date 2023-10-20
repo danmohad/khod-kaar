@@ -3,6 +3,10 @@
 
 name: khod-kaar CI
 
+env:
+  OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+  OPENAI_ORG_ID: ${{secrets.OPENAI_ORG_ID}}
+
 on:
   push:
     branches: [ "main" ]
