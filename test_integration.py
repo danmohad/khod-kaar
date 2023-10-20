@@ -1,5 +1,7 @@
 import os
 import pytest
+import subprocess
+
 from Agent import Agent
 from khod_kaar import khod_kaar
 
@@ -28,12 +30,20 @@ def simple_args():
     return MockArgs(*args)
     
 
+@pytest.fixture
+def cleanup():
+    """Fixture to clean up filesystem after integration test."""
+    
+    yield
+    os.rmdir('../hello_world_project')
+
+
 def test_integration(simple_args):
     """Integration test for khod-kaar using simple_args.
     
     khod-kaar must execute without errors, and the generated program must print 'Hello, World!'."""
 
     khod_kaar(Agent(simple_args))
-    sp = subprocess.run(['python', '../hello_world_project/hello'],
+    sp = subprocess.run(['python', '../hello_world_project/hello_world.py'],
                        check=True, capture_output=True, text=True)
-    assert sp.stdout == 'Hello, World!'
+    assert sp.stdout.strip() == 'Hello, World!'
