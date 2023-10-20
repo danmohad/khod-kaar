@@ -52,5 +52,4 @@ def parse_args() -> argparse.Namespace:
 if __name__ == "__main__":
     """Clause to allow running the program as an executable."""
 
-    agent = Agent(parse_args())
-    khod_kaar(agent)
+    khod_kaar(Agent(parse_args()))
