@@ -32,6 +32,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        apt-get install -y default-jre graphviz
+        wget -O plantuml.jar http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+        mkdir /usr/local/plantuml
+        mv plantuml.jar /usr/local/plantuml/plantuml.jar
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
