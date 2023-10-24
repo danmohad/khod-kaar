@@ -7,13 +7,22 @@ Description: This file contains the System class.
 import os
 import subprocess
 import tempfile
-import time
-from colorama import Fore
 from colorama import Back
 from colorama import Style
 
 class System:
-    def __init__(self, autopilot_: bool):
+    """Singleton class to allow for independent code execution.
+    
+    Attributes:
+        cwd: current working directory
+        _autopilot: boolean, whether autopilot is active
+        split_kwd: keyword for separating LLM code output from cwd check"""
+
+    def __init__(self, autopilot_: bool) -> None:
+        """Initialization for the System class.
+        
+        Args:
+            autopilot_: boolean, whether autopilot is active"""
         
         # Keep track of the current working directory
         self.cwd = os.getcwd()
@@ -134,7 +143,7 @@ class System:
         return n
 
     @staticmethod
-    def _find_nth_substr(needle_, haystack_, n):
+    def _find_nth_substr(needle_, haystack_, n) -> int:
         """Find the starting position of the `n`-th substring `needle_` in the string `haystack_`."""
         
         start = haystack_.find(needle_)
@@ -143,7 +152,7 @@ class System:
             n -= 1
         return start
 
-    def _human_in_the_loop(self):
+    def _human_in_the_loop(self) -> str:
         """Get human approval to continue program execution. This is the only human intervention in the program."""
 
         # TODO change these returns to enumerated types
