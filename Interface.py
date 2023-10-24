@@ -18,7 +18,7 @@ class Interface:
         # OpenAI and LLM settings
         self._model = "gpt-4" if model_ is None else model_
         self._temperature = 1.0 if temperature_ is None else temperature_
-        openai.organization = os.getenv("OPENAI_ORG_KEY")
+        openai.organization = os.getenv("OPENAI_ORG_ID")
         openai.api_key = os.getenv("OPENAI_API_KEY")
 
     def send_prompt(self, memories_):
