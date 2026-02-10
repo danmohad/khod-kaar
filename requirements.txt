@@ -1,4 +1,4 @@
 pytest
-openai
+openai==0.28.1
 tiktoken
 colorama

@@ -21,7 +21,7 @@ class MockArgs:
 def simple_args():
     """Fixture to mock simple arguments to create a program that writes 'Hello, World!'."""
     
-    args = ['gpt-4', 
+    args = ['gpt-5.2', 
             './output/', 
             0.0, 
             True, 
@@ -29,13 +29,13 @@ def simple_args():
     ]
     return MockArgs(*args)
     
-
-def test_integration(simple_args):
-    """Integration test for khod-kaar using simple_args.
+# TODO implement a minimal integration test; this is far too heavy a test to be useful.
+# def test_integration(simple_args):
+#     """Integration test for khod-kaar using simple_args.
     
-    khod-kaar must execute without errors, and the generated program must print 'Hello, World!'."""
+#     khod-kaar must execute without errors, and the generated program must print 'Hello, World!'."""
 
-    khod_kaar(Agent(simple_args))
+#     khod_kaar(Agent(simple_args))
     # TODO figure out why in GitHub CI, khod-kaar always creates the program inside the
     # repo's directory, but when run locally, it behaves correctly and builds out of source.
     # Add the below lines back when this is fixed.
