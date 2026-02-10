@@ -8,6 +8,7 @@ env:
   OPENAI_ORG_ID: ${{secrets.OPENAI_ORG_ID}}
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
